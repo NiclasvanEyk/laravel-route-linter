@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
+use NiclasVanEyk\LaravelRouteLinter\Commands\LintRoutesCommand;
+
 it('can test', function () {
-    expect(true)->toBeTrue();
+    Artisan::call(LintRoutesCommand::class);
 });
