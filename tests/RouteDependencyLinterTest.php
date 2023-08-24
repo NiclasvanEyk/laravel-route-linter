@@ -3,10 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Actions\ResolveRouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linter\RouteDependencyLinter;
+
 use function Pest\Laravel\get;
 
 it('detects when scalar route dependencies are positioned before non-scalar ones', function () {
-    todo("implement this test");
+    todo('implement this test');
 });
 
 it('detects when scalar route dependencies have matching names, but a different order', function () {
@@ -14,7 +15,7 @@ it('detects when scalar route dependencies have matching names, but a different 
         'slug' => $slug,
         'id' => $id,
     ]);
-    get("/articles/slug/comment/42")->dump();
+    get('/articles/slug/comment/42')->dump();
 
     $router = resolve('router');
     $routes = (new ResolveRouteInformation)($router);

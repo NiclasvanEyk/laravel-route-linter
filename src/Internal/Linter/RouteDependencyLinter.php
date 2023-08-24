@@ -4,12 +4,13 @@ namespace NiclasVanEyk\LaravelRouteLinter\Internal\Linter;
 
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linter;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
+
 use function in_array;
 
-readonly final class RouteDependencyLinter implements Linter
+final readonly class RouteDependencyLinter implements Linter
 {
     /**
-     * @param list<RouteInformation> $routes
+     * @param  list<RouteInformation>  $routes
      * @return list<Violation>
      */
     public function lint(array $routes): array

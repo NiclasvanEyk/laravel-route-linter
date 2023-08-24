@@ -5,8 +5,10 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\Actions\ResolveRouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linter\RouteRegistrationLinter;
 
 it('detects simple shadowed routes', function () {
-    Route::get('/constant/prefix/{variable}', function () {});
-    Route::get('/constant/prefix/constant', function () {});
+    Route::get('/constant/prefix/{variable}', function () {
+    });
+    Route::get('/constant/prefix/constant', function () {
+    });
 
     $router = resolve('router');
     $routes = (new ResolveRouteInformation)($router);

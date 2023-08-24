@@ -8,7 +8,7 @@ use Attribute;
  * Signifies that the parameter should be resolved from the routes' path.
  */
 #[Attribute(Attribute::TARGET_PARAMETER)]
-readonly final class FromPath
+final readonly class FromPath
 {
     public function __construct(public ?string $name = null)
     {

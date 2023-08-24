@@ -2,7 +2,7 @@
 
 namespace NiclasVanEyk\LaravelRouteLinter\Internal;
 
-readonly final class Location
+final readonly class Location
 {
     public function __construct(
         public string $file,

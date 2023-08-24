@@ -4,10 +4,10 @@ namespace NiclasVanEyk\LaravelRouteLinter\Internal\Linter;
 
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linter;
 
-readonly final class RouteRegistrationLinter implements Linter
+final readonly class RouteRegistrationLinter implements Linter
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function lint(array $routes): array
     {
