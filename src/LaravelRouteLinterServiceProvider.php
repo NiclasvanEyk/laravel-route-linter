@@ -27,7 +27,7 @@ class LaravelRouteLinterServiceProvider extends PackageServiceProvider
     {
         $this->app->tag([
             Linter\RouteDependencyLinter::class,
-            Linter\RouteRegistrationLinter::class,
+            Linter\ShadowedRouteLinter::class,
         ], Linter::class);
 
         $this->app

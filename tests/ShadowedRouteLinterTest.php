@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use NiclasVanEyk\LaravelRouteLinter\Internal\Linter\RouteRegistrationLinter;
+use NiclasVanEyk\LaravelRouteLinter\Internal\Linter\ShadowedRouteLinter;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
 
@@ -15,7 +15,7 @@ function computeViolations(array $paths): array
         Route::get($path, fn () => null);
     }
 
-    $linter = new RouteRegistrationLinter();
+    $linter = new ShadowedRouteLinter();
     $routes = RouteInformation::all();
     $violations = $linter->lint($routes);
 

@@ -23,7 +23,7 @@ use function count;
  * The second route _can not be reached_, since the URL `/articles/new` is
  * already matching the first route.
  */
-final readonly class RouteRegistrationLinter implements Linter
+final readonly class ShadowedRouteLinter implements Linter
 {
     /**
      * {@inheritDoc}
