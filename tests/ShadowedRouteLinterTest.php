@@ -53,3 +53,11 @@ it('does not produce false positives for different methods', function () {
     $violations = computeViolations(['/foo']);
     expect($violations)->toBeEmpty();
 });
+
+it('does not produce false positives for different hosts', function () {
+    $violations = computeViolations([
+        'foo.com/foo',
+        'bar.com/foo',
+    ]);
+    expect($violations)->toBeEmpty();
+});
