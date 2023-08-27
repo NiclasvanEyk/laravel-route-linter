@@ -5,6 +5,7 @@ namespace NiclasVanEyk\LaravelRouteLinter\Internal;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Actions\ResolveRouteInformation;
 use ReflectionParameter;
 use Stringable;
+
 use function implode;
 
 /**
@@ -35,7 +36,7 @@ final readonly class RouteInformation implements Stringable
 
     public function __toString(): string
     {
-        $methods = implode("|", $this->methods);
+        $methods = implode('|', $this->methods);
 
         return "$methods {$this->path->pattern}";
     }
