@@ -7,7 +7,7 @@ use Illuminate\Routing\Router;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Actions\ResolveRouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linters;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
-use Symfony\Component\Console\Output\OutputInterface;
+
 use function array_map;
 
 class LintRoutesCommand extends Command
@@ -32,13 +32,14 @@ class LintRoutesCommand extends Command
         }
 
         $this->info('All routes are valid!');
+
         return self::SUCCESS;
     }
 
     private function display(array $violations): void
     {
         $this->components->bulletList(
-            array_map(fn(Violation $violation) => $violation->message, $violations)
+            array_map(fn (Violation $violation) => $violation->message, $violations)
         );
     }
 }

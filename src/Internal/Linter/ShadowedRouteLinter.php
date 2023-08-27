@@ -66,7 +66,9 @@ final readonly class ShadowedRouteLinter implements Linter
         while (true) {
             $new = array_shift($newTokens);
             $existing = array_shift($existingTokens);
-            if ($new === null && $existing === null) break;
+            if ($new === null && $existing === null) {
+                break;
+            }
 
             // We know the routes won't clash, if a different constant prefix is
             // found:

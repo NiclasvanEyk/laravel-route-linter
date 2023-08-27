@@ -6,7 +6,7 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
 
 /**
- * @param string[] $paths
+ * @param  string[]  $paths
  * @return Violation[]
  */
 function computeViolations(array $paths): array
