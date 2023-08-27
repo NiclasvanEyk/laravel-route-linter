@@ -65,10 +65,7 @@
         "laravel": {
             "providers": [
                 "NiclasVanEyk\\LaravelRouteLinter\\LaravelRouteLinterServiceProvider"
-            ],
-            "aliases": {
-                "LaravelRouteLinter": "NiclasVanEyk\\LaravelRouteLinter\\Facades\\LaravelRouteLinter"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",
