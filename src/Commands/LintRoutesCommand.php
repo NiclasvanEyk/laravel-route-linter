@@ -6,9 +6,8 @@ use Illuminate\Console\Command;
 use Illuminate\Routing\Router;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Actions\ResolveRouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linters;
-use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
 
-use function array_map;
+use function class_basename;
 
 class LintRoutesCommand extends Command
 {
@@ -25,7 +24,7 @@ class LintRoutesCommand extends Command
         $violations = $linters->lint($routes);
 
         if (count($violations) > 0) {
-            $this->error('Potential problems found:');
+            $this->components->error("Potential problems found:");
             $this->display($violations);
 
             return self::FAILURE;
@@ -38,8 +37,11 @@ class LintRoutesCommand extends Command
 
     private function display(array $violations): void
     {
-        $this->components->bulletList(
-            array_map(fn (Violation $violation) => $violation->message, $violations)
-        );
+        foreach ($violations as $violation) {
+            $kind = class_basename($violation::class);
+            $this->line("<error>$kind</error>");
+            $this->line($violation->message);
+            $this->newLine();
+        }
     }
 }

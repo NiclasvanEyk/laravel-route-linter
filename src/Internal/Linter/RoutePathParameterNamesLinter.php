@@ -6,6 +6,7 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\Confidence;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linter;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
+use NiclasVanEyk\LaravelRouteLinter\Internal\Violations\ConfusingImplicitPathParameterBindings;
 use ReflectionNamedType;
 use ReflectionParameter;
 
@@ -52,12 +53,10 @@ final readonly class RoutePathParameterNamesLinter implements Linter
                 $functionParameterName = $parameterNames[$index] ?? null;
 
                 if ($nameInRouteDefinition !== $functionParameterName) {
-                    $expected = $this->displayOrderForViolationMessage($pathParameterNames);
-                    $actual = $this->displayOrderForViolationMessage($parameterNames);
-
-                    $violations[] = new Violation(
-                        "The controller function parameters of <info>{$route}</info> are misleading. Their order in the path is <info>$expected</info>, but in the controller the order is <info>$actual</info>.",
-                        Confidence::Definite,
+                    $violations[] = new ConfusingImplicitPathParameterBindings(
+                        route: $route,
+                        expected: $pathParameterNames,
+                        actual: $parameterNames,
                     );
 
                     // Only one violation per controller action. If one is wrong
@@ -69,19 +68,6 @@ final readonly class RoutePathParameterNamesLinter implements Linter
         }
 
         return $violations;
-    }
-
-    /**
-     * @param string[] $parameters
-     * @return string
-     */
-    private function displayOrderForViolationMessage(array $parameters): string
-    {
-        $items = implode(', ', array_map(function (string $name) {
-            return "\"$name\"";
-        }, $parameters));
-
-        return "[$items]";
     }
 
     /**

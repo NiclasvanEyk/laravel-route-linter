@@ -9,6 +9,7 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken\Constant;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken\Variable;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
 
+use NiclasVanEyk\LaravelRouteLinter\Internal\Violations\RouteShadowed;
 use function array_intersect;
 use function array_shift;
 use function count;
@@ -49,10 +50,7 @@ final readonly class ShadowedRouteLinter implements Linter
                 }
 
                 if (self::doesNewSegmentsClash($new->path->segments, $existing->path->segments)) {
-                    $violations[] = new Violation(
-                        "The route <info>{$new}</info> clashes with the existing route <info>{$existing}</info>. Register it earlier to prevent this issue.",
-                        Confidence::Probably,
-                    );
+                    $violations[] = new RouteShadowed($new, $existing);
                     break;
                 }
 
