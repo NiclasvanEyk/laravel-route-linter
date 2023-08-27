@@ -3,11 +3,10 @@
 namespace NiclasVanEyk\LaravelRouteLinter\Internal\Violations;
 
 use NiclasVanEyk\LaravelRouteLinter\Internal\Confidence;
-use NiclasVanEyk\LaravelRouteLinter\Internal\Location;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
 
-readonly final class RouteShadowed extends Violation
+final readonly class RouteShadowed extends Violation
 {
     public function __construct(
         RouteInformation $new,

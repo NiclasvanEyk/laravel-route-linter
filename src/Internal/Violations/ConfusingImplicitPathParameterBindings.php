@@ -5,22 +5,23 @@ namespace NiclasVanEyk\LaravelRouteLinter\Internal\Violations;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Confidence;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
+
 use function array_map;
 use function implode;
 
-readonly final class ConfusingImplicitPathParameterBindings extends Violation
+final readonly class ConfusingImplicitPathParameterBindings extends Violation
 {
     public function __construct(
         RouteInformation $route,
         array $expected,
         array $actual
     ) {
-        $link = "https://laravel.com/docs/routing#required-parameters";
+        $link = 'https://laravel.com/docs/routing#required-parameters';
         $expected = $this->displayOrderForViolationMessage($expected);
         $actual = $this->displayOrderForViolationMessage($actual);
 
         parent::__construct(
-            implode(" ", [
+            implode(' ', [
                 "The controller function parameters of <info>{$route}</info> are misleading.",
                 "Their order in the path is <info>$expected</info>, but in the controller the order is <info>$actual</info>.",
                 "See $link for more information.",
@@ -30,8 +31,7 @@ readonly final class ConfusingImplicitPathParameterBindings extends Violation
     }
 
     /**
-     * @param string[] $parameters
-     * @return string
+     * @param  string[]  $parameters
      */
     private function displayOrderForViolationMessage(array $parameters): string
     {

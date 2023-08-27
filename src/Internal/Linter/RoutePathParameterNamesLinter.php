@@ -2,7 +2,6 @@
 
 namespace NiclasVanEyk\LaravelRouteLinter\Internal\Linter;
 
-use NiclasVanEyk\LaravelRouteLinter\Internal\Confidence;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linter;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
@@ -10,9 +9,7 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\Violations\ConfusingImplicitPathPar
 use ReflectionNamedType;
 use ReflectionParameter;
 
-use function array_map;
 use function enum_exists;
-use function implode;
 
 /**
  * Ensures that implicit route bindings that will be resolved from path

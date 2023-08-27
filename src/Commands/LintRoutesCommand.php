@@ -24,7 +24,7 @@ class LintRoutesCommand extends Command
         $violations = $linters->lint($routes);
 
         if (count($violations) > 0) {
-            $this->components->error("Potential problems found:");
+            $this->components->error('Potential problems found:');
             $this->display($violations);
 
             return self::FAILURE;

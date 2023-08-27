@@ -2,14 +2,12 @@
 
 namespace NiclasVanEyk\LaravelRouteLinter\Internal\Linter;
 
-use NiclasVanEyk\LaravelRouteLinter\Internal\Confidence;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linter;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken\Constant;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken\Variable;
-use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
-
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violations\RouteShadowed;
+
 use function array_intersect;
 use function array_shift;
 use function count;
