@@ -41,7 +41,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "NiclasVanEyk\\LaravelRouteLinter\\Tests\\": "tests/",
+            "NiclasVanEyk\\LaravelRouteLinter\\Tests\\": "tests/"
         }
     },
     "scripts": {

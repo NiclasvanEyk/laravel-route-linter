@@ -4,7 +4,7 @@ namespace NiclasVanEyk\LaravelRouteLinter\Internal;
 
 final readonly class Position
 {
-    public function __construct(int $line, int $column)
+    public function __construct(public int $line, public int $column)
     {
     }
 }
