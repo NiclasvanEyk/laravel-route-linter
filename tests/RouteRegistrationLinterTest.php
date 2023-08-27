@@ -25,12 +25,13 @@ it('detects simple shadowed routes', function (array $paths) {
     expect($violations)->not()->toBeEmpty();
 })->with([
     [[
-        '/articles/{article}/comments/{comment}',
-        '/articles/{article}/comments/new',
+        // This one is mentioned in the doc-block
+        '/articles/{article}',
+        '/articles/new',
     ]],
     [[
-        '/constant/prefix/{variable}',
-        '/constant/prefix/constant',
+        '/articles/{article}/comments/{comment}',
+        '/articles/{article}/comments/new',
     ]],
 ]);
 

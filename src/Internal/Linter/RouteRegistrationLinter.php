@@ -10,12 +10,18 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken\Variable;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
 
 use function array_shift;
-use function array_unshift;
 use function count;
-use function max;
 
 /**
- * Detects problems that could arise when registering routes.
+ * Detects when a route is "shadowed" by another route.
+ *
+ * A common mistake is to register your routes like this:
+ * ```
+ * Route::get('/articles/{article}', fn (Article $article) => $article);
+ * Route::get('/articles/new', fn () => view('articles.new'));
+ * ```
+ * The second route _can not be reached_, since the URL `/articles/new` is
+ * already matching the first route.
  */
 final readonly class RouteRegistrationLinter implements Linter
 {
@@ -63,20 +69,26 @@ final readonly class RouteRegistrationLinter implements Linter
             if ($new === null && $existing === null) break;
 
             // We know the routes won't clash, if a different constant prefix is
-            // found...
+            // found:
+            // - GET `/articles/list` exists
+            // - GET `/articles/new` is registered
             if ($existing instanceof Constant && $new instanceof Constant) {
                 if ($new->text !== $existing->text) {
                     return false;
                 }
             }
 
-            // ...or if the existing is constant and the one is a variable...
+            // ...or if the existing is constant and the one is a variable:
+            // - GET `/articles/new` exists
+            // - GET `/articles/{slug}` is registered
             if ($existing instanceof Constant && $new instanceof Variable) {
                 return false;
             }
 
             // ...or if we could not find any clashing segments and there are
-            // no more tokens in the existing route to compare against.
+            // no more tokens in the existing route to compare against:
+            // - GET `/articles` exists
+            // - GET `/articles/{slug} is registered
             if (count($existingTokens) === 0 && count($newTokens) > 0) {
                 return false;
             }
