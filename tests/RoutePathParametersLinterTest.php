@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use NiclasVanEyk\LaravelRouteLinter\Internal\Linter\RouteDependencyLinter;
+use NiclasVanEyk\LaravelRouteLinter\Internal\Linter\RoutePathParameterNamesLinter;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 
 it('detects when scalar route dependencies have matching names, but a different order', function () {
@@ -11,7 +11,7 @@ it('detects when scalar route dependencies have matching names, but a different 
     ]);
 
     $routes = RouteInformation::all();
-    $violations = (new RouteDependencyLinter)->lint($routes);
+    $violations = (new RoutePathParameterNamesLinter)->lint($routes);
 
     expect($violations)->not()->toBeEmpty();
 });

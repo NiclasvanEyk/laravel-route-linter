@@ -4,11 +4,13 @@ namespace NiclasVanEyk\LaravelRouteLinter\Internal;
 
 use NiclasVanEyk\LaravelRouteLinter\Internal\Actions\ResolveRouteInformation;
 use ReflectionParameter;
+use Stringable;
+use function implode;
 
 /**
  * @internal
  */
-final readonly class RouteInformation
+final readonly class RouteInformation implements Stringable
 {
     /**
      * @param  list<string>  $methods
@@ -29,5 +31,12 @@ final readonly class RouteInformation
     public static function all(): array
     {
         return resolve(ResolveRouteInformation::class)();
+    }
+
+    public function __toString(): string
+    {
+        $methods = implode("|", $this->methods);
+
+        return "$methods {$this->path->pattern}";
     }
 }

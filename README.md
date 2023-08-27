@@ -5,6 +5,28 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/niclasvaneyk/laravel-route-linter/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/niclasvaneyk/laravel-route-linter/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/niclasvaneyk/laravel-route-linter.svg?style=flat-square)](https://packagist.org/packages/niclasvaneyk/laravel-route-linter)
 
+```php
+Route::get('/articles/{slug}', function (Article $article) {
+    return view('articles.detail', ['article' => $article]);
+});
+
+Route::get('/articles/new', function () {
+    return view('articles.new');
+});
+
+Route::post('/articles/{slug}/comments/{id}', function (string $id, string $slug) {
+    // ...
+});
+```
+
+```
+php artisan route:lint
+
+Potential problems found:
+- The function parameters of handler of POST articles/{slug}/comments/{id} seem misleading. Their order in the path is ["slug", "id"], but in the controller the order is ["id", "slug"].
+- The route GET|HEAD articles/new clashes with the existing route GET|HEAD articles/{slug}. Register it earlier to prevent this issue.
+```
+
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
 ## Support us

@@ -50,7 +50,7 @@ final readonly class ShadowedRouteLinter implements Linter
 
                 if (self::doesNewSegmentsClash($new->path->segments, $existing->path->segments)) {
                     $violations[] = new Violation(
-                        "The route {$new->path->pattern} clashes with an existing route definition ({$existing->path->pattern})",
+                        "The route <info>{$new}</info> clashes with the existing route <info>{$existing}</info>. Register it earlier to prevent this issue.",
                         Confidence::Probably,
                     );
                     break;
