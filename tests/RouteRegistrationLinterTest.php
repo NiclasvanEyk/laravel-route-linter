@@ -11,7 +11,9 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
  */
 function computeViolations(array $paths): array
 {
-    array_map(fn (string $path) => Route::get($path, fn () => null), $paths);
+    foreach ($paths as $path) {
+        Route::get($path, fn () => null);
+    }
 
     $linter = new RouteRegistrationLinter();
     $routes = RouteInformation::all();
