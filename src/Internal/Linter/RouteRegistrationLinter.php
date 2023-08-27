@@ -10,9 +10,7 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken\Variable;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
 
 use function array_shift;
-use function array_unshift;
 use function count;
-use function max;
 
 /**
  * Detects problems that could arise when registering routes.
@@ -60,7 +58,9 @@ final readonly class RouteRegistrationLinter implements Linter
         while (true) {
             $new = array_shift($newTokens);
             $existing = array_shift($existingTokens);
-            if ($new === null && $existing === null) break;
+            if ($new === null && $existing === null) {
+                break;
+            }
 
             // We know the routes won't clash, if a different constant prefix is
             // found...
