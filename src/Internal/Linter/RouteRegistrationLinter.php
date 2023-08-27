@@ -8,6 +8,7 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken\Constant;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken\Variable;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
+
 use function array_shift;
 use function array_slice;
 use function count;
@@ -46,15 +47,13 @@ final readonly class RouteRegistrationLinter implements Linter
     }
 
     /**
-     * @param list<Constant|Variable> $newTokens
-     * @param list<Constant|Variable> $existingTokens
-     * @return bool
+     * @param  list<Constant|Variable>  $newTokens
+     * @param  list<Constant|Variable>  $existingTokens
      */
     public static function doesNewSegmentsClash(
         array $newTokens,
         array $existingTokens,
-    ): bool
-    {
+    ): bool {
         $segmentsToCompare = min(
             count($newTokens),
             count($existingTokens),
@@ -68,8 +67,10 @@ final readonly class RouteRegistrationLinter implements Linter
 
             // We know the routes won't clash, if a different constant prefix is
             // found...
-            if ($existing instanceof Constant&& $new instanceof Constant) {
-                if ($new->text !== $existing->text) return false;
+            if ($existing instanceof Constant && $new instanceof Constant) {
+                if ($new->text !== $existing->text) {
+                    return false;
+                }
             }
 
             // ...or if the existing is constant and the one is a variable.

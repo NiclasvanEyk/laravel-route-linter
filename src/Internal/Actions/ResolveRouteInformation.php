@@ -10,7 +10,6 @@ use Illuminate\Routing\Router;
 use LogicException;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePath;
-use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken;
 use ReflectionClass;
 use ReflectionFunction;
 
@@ -23,7 +22,7 @@ final readonly class ResolveRouteInformation
     /**
      * @return list<RouteInformation>
      */
-    public function __invoke(?Router $router = null): array
+    public function __invoke(Router $router = null): array
     {
         $router ??= resolve('router');
 
