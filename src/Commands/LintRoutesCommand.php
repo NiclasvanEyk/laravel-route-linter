@@ -24,7 +24,7 @@ class LintRoutesCommand extends Command
         if (count($violations) > 0) {
             $this->display($violations);
 
-            return self::FAILURE; // errornous?
+            return self::FAILURE; // errorneous?
         }
 
         $this->info("All routes are valid!");

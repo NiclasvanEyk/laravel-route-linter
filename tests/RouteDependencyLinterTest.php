@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Actions\ResolveRouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linter\RouteDependencyLinter;
@@ -14,11 +15,11 @@ it('detects when scalar route dependencies have matching names, but a different 
         'slug' => $slug,
         'id' => $id,
     ]);
-    get("/articles/slug/comment/42")->dump();
 
     $router = resolve('router');
     $routes = (new ResolveRouteInformation)($router);
     $violations = (new RouteDependencyLinter)->lint($routes);
 
     expect($violations)->not()->toBeEmpty();
+    dump($violations);
 });

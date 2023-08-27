@@ -12,7 +12,6 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use ReflectionClass;
 use ReflectionFunction;
 use function array_map;
-use function dump;
 use function explode;
 use function is_string;
 
@@ -30,14 +29,14 @@ readonly final class ResolveRouteInformation
         }
 
         return array_map(function (Route $route) {
-            $paramaters = $this->determineRouteParameters($route);
+            $parameters = $this->determineRouteParameters($route);
             $compiled = $route->toSymfonyRoute()->compile();
             $variables = $compiled->getPathVariables();
 
             return new RouteInformation(
                 $route->uri,
                 $variables,
-                $paramaters,
+                $parameters,
             );
         }, iterator_to_array($routes->getIterator()));
     }
