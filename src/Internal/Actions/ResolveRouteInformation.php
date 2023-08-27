@@ -9,6 +9,8 @@ use Illuminate\Routing\RouteCollection;
 use Illuminate\Routing\Router;
 use LogicException;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
+use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePath;
+use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken;
 use ReflectionClass;
 use ReflectionFunction;
 
@@ -21,8 +23,10 @@ final readonly class ResolveRouteInformation
     /**
      * @return list<RouteInformation>
      */
-    public function __invoke(Router $router): array
+    public function __invoke(?Router $router = null): array
     {
+        $router ??= resolve('router');
+
         $routes = $router->getRoutes();
         if ((! $routes instanceof RouteCollection)) {
             throw new Exception("Compiled routes can't be validated!");
@@ -34,7 +38,7 @@ final readonly class ResolveRouteInformation
             $variables = $compiled->getPathVariables();
 
             return new RouteInformation(
-                $route->uri,
+                RoutePath::fromCompiledSymfonyRoute($route->uri, $compiled),
                 $variables,
                 $parameters,
             );

@@ -2,6 +2,7 @@
 
 namespace NiclasVanEyk\LaravelRouteLinter\Internal;
 
+use NiclasVanEyk\LaravelRouteLinter\Internal\Actions\ResolveRouteInformation;
 use ReflectionParameter;
 
 /**
@@ -14,9 +15,17 @@ final readonly class RouteInformation
      * @param  list<ReflectionParameter>  $functionParameters
      */
     public function __construct(
-        public string $pattern,
-        public array $pathParameters = [],
-        public array $functionParameters = [],
+        public RoutePath $path,
+        public array $pathParameters,
+        public array $functionParameters,
     ) {
+    }
+
+    /**
+     * @return self[]
+     */
+    public static function all(): array
+    {
+        return resolve(ResolveRouteInformation::class)();
     }
 }

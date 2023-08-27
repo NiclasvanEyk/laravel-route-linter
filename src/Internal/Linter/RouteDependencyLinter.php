@@ -2,9 +2,9 @@
 
 namespace NiclasVanEyk\LaravelRouteLinter\Internal\Linter;
 
-use Illuminate\Contracts\Routing\BindingRegistrar;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Confidence;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linter;
+use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
 use ReflectionNamedType;
 use ReflectionParameter;
@@ -34,7 +34,7 @@ readonly final class RouteDependencyLinter implements Linter
                     $actual = implode(', ', $pathParameterNames);
 
                     $violations[] = new Violation(
-                        "The function parameters of handler of '$route->pattern' seem misleading. Their order in the path is [$expected], but in the controller the order is [$actual]",
+                        "The function parameters of handler of '{$route->path->pattern}' seem misleading. Their order in the path is [$expected], but in the controller the order is [$actual]",
                         Confidence::Definite,
                     );
 
