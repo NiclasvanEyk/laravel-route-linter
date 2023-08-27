@@ -2,11 +2,11 @@
 
 namespace NiclasVanEyk\LaravelRouteLinter;
 
+use NiclasVanEyk\LaravelRouteLinter\Commands\LintRoutesCommand;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linter;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linters;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use NiclasVanEyk\LaravelRouteLinter\Commands\LintRoutesCommand;
 
 class LaravelRouteLinterServiceProvider extends PackageServiceProvider
 {

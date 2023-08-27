@@ -2,7 +2,7 @@
 
 namespace NiclasVanEyk\LaravelRouteLinter\Internal;
 
-readonly final class Violation
+final readonly class Violation
 {
     public function __construct(
         public string $message,

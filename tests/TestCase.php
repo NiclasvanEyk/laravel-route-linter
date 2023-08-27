@@ -3,8 +3,8 @@
 namespace NiclasVanEyk\LaravelRouteLinter\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use NiclasVanEyk\LaravelRouteLinter\LaravelRouteLinterServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {

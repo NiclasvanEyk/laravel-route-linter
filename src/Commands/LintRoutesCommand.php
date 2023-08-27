@@ -27,7 +27,8 @@ class LintRoutesCommand extends Command
             return self::FAILURE; // errorneous?
         }
 
-        $this->info("All routes are valid!");
+        $this->info('All routes are valid!');
+
         return self::SUCCESS;
     }
 

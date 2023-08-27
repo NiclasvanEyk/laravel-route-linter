@@ -8,7 +8,7 @@ use Attribute;
  * Excludes a class/method/parameter from the linting process.
  */
 #[Attribute]
-readonly final class Ignore
+final readonly class Ignore
 {
     public function __construct(public ?string $reason = null)
     {

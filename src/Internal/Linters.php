@@ -2,7 +2,7 @@
 
 namespace NiclasVanEyk\LaravelRouteLinter\Internal;
 
-readonly final class Linters implements Linter
+final readonly class Linters implements Linter
 {
     /**
      * @var list<Linter>

@@ -11,20 +11,20 @@ use LogicException;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use ReflectionClass;
 use ReflectionFunction;
+
 use function array_map;
 use function explode;
 use function is_string;
 
-readonly final class ResolveRouteInformation
+final readonly class ResolveRouteInformation
 {
     /**
-     * @param Router $router
      * @return list<RouteInformation>
      */
     public function __invoke(Router $router): array
     {
         $routes = $router->getRoutes();
-        if ((!$routes instanceof RouteCollection)) {
+        if ((! $routes instanceof RouteCollection)) {
             throw new Exception("Compiled routes can't be validated!");
         }
 
@@ -51,6 +51,7 @@ readonly final class ResolveRouteInformation
 
         if (is_string($uses)) {
             [$controller, $method] = explode('@', $uses);
+
             return (new ReflectionClass($controller))
                 ->getMethod($method)
                 ->getParameters();

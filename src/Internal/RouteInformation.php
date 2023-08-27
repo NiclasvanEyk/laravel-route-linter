@@ -7,16 +7,16 @@ use ReflectionParameter;
 /**
  * @internal
  */
-readonly final class RouteInformation
+final readonly class RouteInformation
 {
     /**
-     * @param list<string> $pathParameters
-     * @param list<ReflectionParameter> $functionParameters
+     * @param  list<string>  $pathParameters
+     * @param  list<ReflectionParameter>  $functionParameters
      */
     public function __construct(
         public string $pattern,
-        public array  $pathParameters = [],
-        public array  $functionParameters = [],
+        public array $pathParameters = [],
+        public array $functionParameters = [],
     ) {
     }
 }
