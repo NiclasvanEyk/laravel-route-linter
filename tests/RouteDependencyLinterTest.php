@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use NiclasVanEyk\LaravelRouteLinter\Internal\Actions\ResolveRouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linter\RouteDependencyLinter;
+use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 
 it('detects when scalar route dependencies have matching names, but a different order', function () {
     Route::get('/articles/{slug}/comment/{id}', fn (string $id, string $slug) => [
@@ -10,8 +10,7 @@ it('detects when scalar route dependencies have matching names, but a different 
         'id' => $id,
     ]);
 
-    $router = resolve('router');
-    $routes = (new ResolveRouteInformation)($router);
+    $routes = RouteInformation::all();
     $violations = (new RouteDependencyLinter)->lint($routes);
 
     expect($violations)->not()->toBeEmpty();

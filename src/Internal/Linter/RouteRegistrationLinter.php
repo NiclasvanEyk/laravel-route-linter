@@ -10,10 +10,13 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken\Variable;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
 
 use function array_shift;
-use function array_slice;
+use function array_unshift;
 use function count;
-use function min;
+use function max;
 
+/**
+ * Detects problems that could arise when registering routes.
+ */
 final readonly class RouteRegistrationLinter implements Linter
 {
     /**
@@ -54,16 +57,10 @@ final readonly class RouteRegistrationLinter implements Linter
         array $newTokens,
         array $existingTokens,
     ): bool {
-        $segmentsToCompare = min(
-            count($newTokens),
-            count($existingTokens),
-        );
-        $newTokens = array_slice($newTokens, 0, $segmentsToCompare);
-        $existingTokens = array_slice($existingTokens, 0, $segmentsToCompare);
-
-        for ($index = 0; $index < $segmentsToCompare; $index++) {
-            $new = $newTokens[$index];
-            $existing = $existingTokens[$index];
+        while (true) {
+            $new = array_shift($newTokens);
+            $existing = array_shift($existingTokens);
+            if ($new === null && $existing === null) break;
 
             // We know the routes won't clash, if a different constant prefix is
             // found...
@@ -73,17 +70,24 @@ final readonly class RouteRegistrationLinter implements Linter
                 }
             }
 
-            // ...or if the existing is constant and the one is a variable.
+            // ...or if the existing is constant and the one is a variable...
             if ($existing instanceof Constant && $new instanceof Variable) {
                 return false;
             }
 
-            // The other two cases might lead to clashes. Further complex logic
-            // could be implemented here to check for overlapping regexes, but
-            // this would DRASTICALLY improve the complexity, so for now we put
-            // the burden on the user to annotate false positives as ignored.
+            // ...or if we could not find any clashing segments and there are
+            // no more tokens in the existing route to compare against.
+            if (count($existingTokens) === 0 && count($newTokens) > 0) {
+                return false;
+            }
         }
 
+        // If we cannot prove, that the route does not clash, we assume it does.
+        // This might lead to false positive for regex parameters (e.g. there)
+        // could be two controllers for `/articles/{slug}` and `/articles/{id}`
+        // that use regexes to route string parameters to the first and all
+        // numeric ones to the second. However, this case is (I assume) not that
+        // common, so we'll make the user explicitly ignore these cases.
         return true;
     }
 }

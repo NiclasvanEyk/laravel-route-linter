@@ -20,13 +20,16 @@ class LaravelRouteLinterServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-route-linter')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel-route-linter_table')
             ->hasCommand(LintRoutesCommand::class);
     }
 
     public function packageRegistered()
     {
+        $this->app->tag([
+            Linter\RouteDependencyLinter::class,
+            Linter\RouteRegistrationLinter::class,
+        ], Linter::class);
+
         $this->app
             ->when(Linters::class)
             ->needs(Linter::class)
