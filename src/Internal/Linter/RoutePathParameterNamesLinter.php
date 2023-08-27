@@ -72,8 +72,7 @@ final readonly class RoutePathParameterNamesLinter implements Linter
     }
 
     /**
-     * @param string[] $parameters
-     * @return string
+     * @param  string[]  $parameters
      */
     private function displayOrderForViolationMessage(array $parameters): string
     {
