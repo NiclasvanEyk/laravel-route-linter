@@ -47,3 +47,9 @@ it('does not produce false positives', function (array $paths) {
         '/articles/{article}',
     ]],
 ]);
+
+it('does not produce false positives for different methods', function () {
+    Route::post('/foo', function () {});
+    $violations = computeViolations(['/foo']);
+    expect($violations)->toBeEmpty();
+});

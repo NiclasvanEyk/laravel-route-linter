@@ -37,6 +37,7 @@ final readonly class ResolveRouteInformation
             $variables = $compiled->getPathVariables();
 
             return new RouteInformation(
+                $route->methods(),
                 RoutePath::fromCompiledSymfonyRoute($route->uri, $compiled),
                 $variables,
                 $parameters,

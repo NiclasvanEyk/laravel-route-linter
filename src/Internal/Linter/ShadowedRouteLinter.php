@@ -9,6 +9,7 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken\Constant;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePathToken\Variable;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
 
+use function array_intersect;
 use function array_shift;
 use function count;
 
@@ -40,6 +41,13 @@ final readonly class ShadowedRouteLinter implements Linter
 
         while ($new = array_shift($routes)) {
             foreach ($registered as $existing) {
+                // If the routes do not share http methods, they can't clash.
+                // We can safely register `GET /foo` even when `POST /foo`
+                // already exists.
+                if (count(array_intersect($new->methods, $existing->methods)) === 0) {
+                    continue;
+                }
+
                 if (self::doesNewSegmentsClash($new->path->segments, $existing->path->segments)) {
                     $violations[] = new Violation(
                         "The route {$new->path->pattern} clashes with an existing route definition ({$existing->path->pattern})",

@@ -11,10 +11,12 @@ use ReflectionParameter;
 final readonly class RouteInformation
 {
     /**
+     * @param  list<string>  $methods
      * @param  list<string>  $pathParameters
      * @param  list<ReflectionParameter>  $functionParameters
      */
     public function __construct(
+        public array $methods,
         public RoutePath $path,
         public array $pathParameters,
         public array $functionParameters,
