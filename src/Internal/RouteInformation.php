@@ -21,6 +21,7 @@ final readonly class RouteInformation implements Stringable
      */
     public function __construct(
         public array $methods,
+        public ?string $name,
         public RoutePath $path,
         public array $pathParameters,
         public ReflectionFunction|ReflectionMethod $handler,

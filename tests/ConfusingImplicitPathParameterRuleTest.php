@@ -23,13 +23,14 @@ class ConfusingImplicitPathParameterRuleTest extends RuleTestCase
                     new ConfusingImplicitPathParameterBindings(
                         route: new RouteInformation(
                             ['GET', 'HEAD'],
+                            'test',
                             new RoutePath('/foo', [new Constant('foo')]),
                             [],
                             (new ReflectionClass(Foo::class))->getMethod('foo'),
                         ),
                         expected: ['foo', 'bar'],
                         actual: ['bar', 'foo'],
-                    )
+                    ),
                 ],
             )
         );
@@ -37,7 +38,7 @@ class ConfusingImplicitPathParameterRuleTest extends RuleTestCase
 
     public function testFooBar(): void
     {
-        $this->analyse([__DIR__ . '/fixtures/Foo.php'], [
+        $this->analyse([__DIR__.'/fixtures/Foo.php'], [
             [
                 "The controller function parameters of `GET|HEAD /foo` are misleading. Their order in the path is `[\"foo\", \"bar\"]`, but in the controller the order is `[\"bar\", \"foo\"]`.\n    💡 See https://laravel.com/docs/routing#required-parameters for more information.",
                 7,
