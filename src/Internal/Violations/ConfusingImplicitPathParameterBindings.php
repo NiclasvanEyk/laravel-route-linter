@@ -11,23 +11,44 @@ use function implode;
 
 final readonly class ConfusingImplicitPathParameterBindings extends Violation
 {
+    public array $wrongParameterNames;
+
     public function __construct(
-        RouteInformation $route,
-        array $expected,
-        array $actual
+        public RouteInformation $route,
+        public array $expected,
+        public array $actual,
     ) {
-        $link = 'https://laravel.com/docs/routing#required-parameters';
-        $expected = $this->displayOrderForViolationMessage($expected);
-        $actual = $this->displayOrderForViolationMessage($actual);
+        $misplaced = [];
+        for ($index = 0; $index < max(count($this->expected), count($this->actual)); $index++) {
+            $expectedParameter = $this->expected[$index] ?? null;
+            $actualParameter = $this->actual[$index] ?? null;
+            if ($expectedParameter === $actualParameter) continue;
+
+            $misplaced[] = $actualParameter;
+        }
+        $this->wrongParameterNames = $misplaced;
 
         parent::__construct(
-            implode(' ', [
-                "The controller function parameters of <info>{$route}</info> are misleading.",
-                "Their order in the path is <info>$expected</info>, but in the controller the order is <info>$actual</info>.",
-                "See $link for more information.",
-            ]),
+            $this->getMessage('<info>', '</info>') . ' ' . $this->getTip(),
             Confidence::Definite,
         );
+    }
+
+    public function getTip(): string
+    {
+        return "See https://laravel.com/docs/routing#required-parameters for more information.";
+    }
+
+    public function getMessage(string $start, string $end)
+    {
+        $expected = $this->displayOrderForViolationMessage($this->expected);
+        $actual = $this->displayOrderForViolationMessage($this->actual);
+        $wrap = fn ($subject) => $start . $subject . $end;
+
+        return implode(' ', [
+            "The controller function parameters of {$wrap($this->route)} are misleading.",
+            "Their order in the path is `$expected`, but in the controller the order is `$actual`.",
+        ]);
     }
 
     /**

@@ -42,7 +42,7 @@ final readonly class RoutePathParameterNamesLinter implements Linter
         $violations = [];
 
         foreach ($routes as $route) {
-            $parameterNames = $this->injectionPoints($route->functionParameters);
+            $parameterNames = $this->injectionPoints($route->handler->getParameters());
             $pathParameterNames = $route->pathParameters;
 
             for ($index = 0; $index < count($parameterNames); $index++) {
@@ -59,7 +59,7 @@ final readonly class RoutePathParameterNamesLinter implements Linter
                     // Only one violation per controller action. If one is wrong
                     // all others would lead to violations as well, but they
                     // would be mostly unnecessary noise.
-                    break;
+                    break 2;
                 }
             }
         }

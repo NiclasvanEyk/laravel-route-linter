@@ -3,6 +3,8 @@
 namespace NiclasVanEyk\LaravelRouteLinter\Internal;
 
 use NiclasVanEyk\LaravelRouteLinter\Internal\Actions\ResolveRouteInformation;
+use ReflectionFunction;
+use ReflectionMethod;
 use ReflectionParameter;
 use Stringable;
 
@@ -16,13 +18,12 @@ final readonly class RouteInformation implements Stringable
     /**
      * @param  list<string>  $methods
      * @param  list<string>  $pathParameters
-     * @param  list<ReflectionParameter>  $functionParameters
      */
     public function __construct(
         public array $methods,
         public RoutePath $path,
         public array $pathParameters,
-        public array $functionParameters,
+        public ReflectionFunction|ReflectionMethod $handler,
     ) {
     }
 

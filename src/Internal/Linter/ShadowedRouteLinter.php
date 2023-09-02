@@ -67,6 +67,12 @@ final readonly class ShadowedRouteLinter implements Linter
         array $newTokens,
         array $existingTokens,
     ): bool {
+        if (count($existingTokens) === 0 && count($newTokens) > 0) {
+            // The existing route represents `/`, which cannot clash with any
+            // other route.
+            return false;
+        }
+
         while (true) {
             $new = array_shift($newTokens);
             $existing = array_shift($existingTokens);

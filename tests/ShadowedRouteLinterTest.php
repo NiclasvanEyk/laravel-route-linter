@@ -22,7 +22,7 @@ function computeViolations(array $paths): array
     return $violations;
 }
 
-it('detects simple shadowed routes', function (array $paths) {
+it('detects shadowed routes', function (array $paths) {
     $violations = computeViolations($paths);
     expect($violations)->not()->toBeEmpty();
 })->with([
@@ -35,6 +35,11 @@ it('detects simple shadowed routes', function (array $paths) {
         '/articles/{article}/comments/{comment}',
         '/articles/{article}/comments/new',
     ]],
+    [[
+        '/{wildcard}',
+        '/something/else',
+        '/something',
+    ]],
 ]);
 
 it('does not produce false positives', function (array $paths) {
@@ -45,6 +50,11 @@ it('does not produce false positives', function (array $paths) {
         '/articles',
         '/articles/all',
         '/articles/{article}',
+    ]],
+    [[
+        '/',
+        '/another',
+        '/another/with/{parameter}',
     ]],
 ]);
 

@@ -1,0 +1,5 @@
+services:
+    - NiclasVanEyk\LaravelRouteLinter\PHPStan\ViolationContainer
+rules:
+    - NiclasVanEyk\LaravelRouteLinter\PHPStan\ConfusingImplicitPathParameterRule
+    - NiclasVanEyk\LaravelRouteLinter\PHPStan\ShadowedRouteRule

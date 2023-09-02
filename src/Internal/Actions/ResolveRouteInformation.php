@@ -13,6 +13,7 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\RoutePath;
 use ReflectionClass;
 use ReflectionFunction;
 
+use ReflectionMethod;
 use function array_map;
 use function explode;
 use function is_string;
@@ -32,7 +33,7 @@ final readonly class ResolveRouteInformation
         }
 
         return array_map(function (Route $route) {
-            $parameters = $this->determineRouteParameters($route);
+            $handler = $this->determineRouteHandler($route);
             $compiled = $route->toSymfonyRoute()->compile();
             $variables = $compiled->getPathVariables();
 
@@ -40,27 +41,24 @@ final readonly class ResolveRouteInformation
                 $route->methods(),
                 RoutePath::fromCompiledSymfonyRoute($route->uri, $compiled),
                 $variables,
-                $parameters,
+                $handler,
             );
         }, iterator_to_array($routes->getIterator()));
     }
 
-    private function determineRouteParameters(Route $route): array
+    private function determineRouteHandler(Route $route): ReflectionFunction|ReflectionMethod
     {
         $uses = $route->getAction('uses');
 
         if ($uses instanceof Closure) {
-            return (new ReflectionFunction($uses))->getParameters();
+            return (new ReflectionFunction($uses));
         }
 
         if (is_string($uses)) {
             [$controller, $method] = explode('@', $uses);
-
-            return (new ReflectionClass($controller))
-                ->getMethod($method)
-                ->getParameters();
+            return (new ReflectionClass($controller))->getMethod($method);
         }
 
-        throw new LogicException();
+        throw new LogicException(); // TODO: Message
     }
 }
