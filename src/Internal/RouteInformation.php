@@ -5,7 +5,6 @@ namespace NiclasVanEyk\LaravelRouteLinter\Internal;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Actions\ResolveRouteInformation;
 use ReflectionFunction;
 use ReflectionMethod;
-use ReflectionParameter;
 use Stringable;
 
 use function implode;

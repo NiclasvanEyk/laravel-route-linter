@@ -4,7 +4,7 @@ namespace NiclasVanEyk\LaravelRouteLinter\Tests\Fixtures;
 
 use Illuminate\Contracts\Routing\UrlGenerator;
 
-readonly final class MissingRouteParameterTestFixture
+final readonly class MissingRouteParameterTestFixture
 {
     public function method(UrlGenerator $url)
     {

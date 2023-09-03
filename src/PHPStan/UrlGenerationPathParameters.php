@@ -5,13 +5,13 @@ namespace NiclasVanEyk\LaravelRouteLinter\PHPStan;
 use Illuminate\Routing\UrlGenerator;
 use NiclasVanEyk\LaravelRouteLinter\PHPStan\Support\Reflection;
 use PhpParser\Node;
+
 use function array_diff;
 use function array_flip;
 use function array_key_exists;
 use function array_shift;
 use function array_values;
 use function count;
-use function is_string;
 
 /**
  * Models the parameter array passed to a function generating a URL to a named
@@ -42,7 +42,7 @@ use function is_string;
 class UrlGenerationPathParameters
 {
     /**
-     * @param list<string|null> $names
+     * @param  list<string|null>  $names
      */
     public function __construct(public readonly array $names = [])
     {
@@ -50,7 +50,9 @@ class UrlGenerationPathParameters
 
     public static function tryFromNode(Node $node): ?self
     {
-        if (!($node instanceof Node\Expr\Array_)) return null;
+        if (! ($node instanceof Node\Expr\Array_)) {
+            return null;
+        }
 
         $names = [];
         foreach ($node->items as $item) {
@@ -59,7 +61,9 @@ class UrlGenerationPathParameters
                 $names[] = null;
             } else {
                 $asString = Reflection::constantStringValueOf($key);
-                if ($asString === null) return null;
+                if ($asString === null) {
+                    return null;
+                }
 
                 $names[] = $asString;
             }
@@ -80,8 +84,9 @@ class UrlGenerationPathParameters
      * possible, since the names of parameters passed by index are now named.
      * This is the major use of this function (and class).
      *
-     * @param list<string> $correctOrder
+     * @param  list<string>  $correctOrder
      * @return array<string,string>
+     *
      * @see UrlGenerator::replaceRouteParameters() for the detailed handling of
      * named and numeric array keys.
      */
@@ -108,7 +113,7 @@ class UrlGenerationPathParameters
             // Now we need to find a "hole" where the parameter would be
             // inserted by Laravel's URL generator
             for ($index = 0; $index < count($this->names); $index++) {
-                if (!array_key_exists($index, $matched)) {
+                if (! array_key_exists($index, $matched)) {
                     $matched[$index] = $parameterName;
                     break;
                 }

@@ -20,9 +20,8 @@ use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
-use ReflectionFunction;
 use ReflectionFunctionAbstract;
-use ReflectionMethod;
+
 use function class_implements;
 use function count;
 
@@ -42,6 +41,7 @@ class RoutingFunctions
      *
      * @see https://sourcegraph.com/search?q=repo:%5Egithub%5C.com/laravel/framework%24+%28%24route%2C+%24parameters+%3D+%5B%5D
      * @see https://sourcegraph.com/search?q=repo%3A%5Egithub%5C.com%2Flaravel%2Fframework%24+%24name%2C+%24parameters+%3D+%5B%5D
+     *
      * @var list<array{0: class-string, 1: string}|array{0: null, 1: callable-string}>
      */
     private array $routeMethods = [
@@ -65,18 +65,24 @@ class RoutingFunctions
         Scope $scope,
     ): ?Arg {
         $result = $this->extendedReflectionProvider->resolveCallLike($node, $scope);
-        if ($result === null) return null;
+        if ($result === null) {
+            return null;
+        }
         [$class, $function] = $result;
 
         // Attempt 1: We look if one of the parameters is annotated with our
         // marker attribute.
         $argumentNode = $this->getRouteNameViaAttribute($node, $function);
-        if ($argumentNode !== null) return $argumentNode;
+        if ($argumentNode !== null) {
+            return $argumentNode;
+        }
 
         // If this is not the case, we check a set of functions/methods that are
         // known to accept route names. If this is not the case, we can safely
         // return early here.
-        if (!$this->isWellKnownRouteFunction($class, $function)) return null;
+        if (! $this->isWellKnownRouteFunction($class, $function)) {
+            return null;
+        }
 
         // If the function/method is well known, we assume that the first
         // parameter represents the route name.
@@ -91,7 +97,9 @@ class RoutingFunctions
         foreach ($method->getParameters() as $index => $parameter) {
             if (count($parameter->getAttributes(RouteName::class)) > 0) {
                 $arg = $node->args[$index];
-                if ($arg) return $arg;
+                if ($arg) {
+                    return $arg;
+                }
             }
         }
 
@@ -108,7 +116,9 @@ class RoutingFunctions
         foreach ($this->routeMethods as [$fqn, $method]) {
             $nameMatchesFqn = $fqn === $searchedClassName;
             $implementsFqn = Reflection::isInterface($fqn) && $class?->implementsInterface($fqn);
-            if (!($nameMatchesFqn || $implementsFqn)) continue;
+            if (! ($nameMatchesFqn || $implementsFqn)) {
+                continue;
+            }
 
             if ($method === $searchedFunctionName) {
                 return true;
@@ -129,24 +139,29 @@ class RoutingFunctions
     public function extractRouteAndParameterNameNodes(
         Node $node,
         Scope $scope,
-    ): ?array
-    {
-        if (!($node instanceof MethodCall)) return false;
+    ): ?array {
+        if (! ($node instanceof MethodCall)) {
+            return false;
+        }
 
         // TODO: add `route` and `URL::signedRoute`, `to_route`, ...
         // See https://sourcegraph.com/search?q=repo:%5Egithub%5C.com/laravel/framework%24+%28%24route%2C+%24parameters+%3D+%5B%5D
         // and https://sourcegraph.com/search?q=repo%3A%5Egithub%5C.com%2Flaravel%2Fframework%24+%24name%2C+%24parameters+%3D+%5B%5D
 
         $classes = $scope->getType($node->var)->getReferencedClasses();
-        if (!$this->referencesUrlGenerator($classes)) return false;
-        if ($node->name->name !== 'route') return false;
+        if (! $this->referencesUrlGenerator($classes)) {
+            return false;
+        }
+        if ($node->name->name !== 'route') {
+            return false;
+        }
 
         // TODO: Catch if no first or second arg was provided
         return [$node->args[0], $node->args[1]];
     }
 
     /**
-     * @param string[] $classes
+     * @param  string[]  $classes
      */
     private function referencesUrlGenerator(array $classes): bool
     {
@@ -160,13 +175,14 @@ class RoutingFunctions
     }
 
     /**
-     * @param class-string $class
-     * @param class-string $interface
-     * @return bool
+     * @param  class-string  $class
+     * @param  class-string  $interface
      */
     private function satisfiesInterface(string $class, string $interface): bool
     {
-        if ($class === $interface) return true;
+        if ($class === $interface) {
+            return true;
+        }
 
         foreach (class_implements($class) as $implemented) {
             if ($interface === $implemented) {
@@ -176,5 +192,4 @@ class RoutingFunctions
 
         return false;
     }
-
 }

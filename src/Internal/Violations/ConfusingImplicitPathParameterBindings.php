@@ -22,28 +22,30 @@ final readonly class ConfusingImplicitPathParameterBindings extends Violation
         for ($index = 0; $index < max(count($this->expected), count($this->actual)); $index++) {
             $expectedParameter = $this->expected[$index] ?? null;
             $actualParameter = $this->actual[$index] ?? null;
-            if ($expectedParameter === $actualParameter) continue;
+            if ($expectedParameter === $actualParameter) {
+                continue;
+            }
 
             $misplaced[] = $actualParameter;
         }
         $this->wrongParameterNames = $misplaced;
 
         parent::__construct(
-            $this->getMessage('<info>', '</info>') . ' ' . $this->getTip(),
+            $this->getMessage('<info>', '</info>').' '.$this->getTip(),
             Confidence::Definite,
         );
     }
 
     public function getTip(): string
     {
-        return "See https://laravel.com/docs/routing#required-parameters for more information.";
+        return 'See https://laravel.com/docs/routing#required-parameters for more information.';
     }
 
     public function getMessage(string $start, string $end)
     {
         $expected = $this->displayOrderForViolationMessage($this->expected);
         $actual = $this->displayOrderForViolationMessage($this->actual);
-        $wrap = fn ($subject) => $start . $subject . $end;
+        $wrap = fn ($subject) => $start.$subject.$end;
 
         return implode(' ', [
             "The controller function parameters of {$wrap($this->route)} are misleading.",

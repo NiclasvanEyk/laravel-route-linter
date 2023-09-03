@@ -7,6 +7,7 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
+
 use function in_array;
 use function is_array;
 use function levenshtein;
@@ -25,7 +26,7 @@ class UnknownRouteRule implements Rule
     public array $routes = [];
 
     /**
-     * @param Routes|list<string> $routes
+     * @param  Routes|list<string>  $routes
      */
     public function __construct(
         Routes|array $routes,
@@ -43,19 +44,29 @@ class UnknownRouteRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        if (!($node instanceof Node\Expr\CallLike)) return [];
-        if (count($this->routes) === 0) return [];
+        if (! ($node instanceof Node\Expr\CallLike)) {
+            return [];
+        }
+        if (count($this->routes) === 0) {
+            return [];
+        }
 
         $argumentNode = $this->routingFunctions->getRouteNameArgument(
             $node,
             $scope,
         );
 
-        if ($argumentNode === null) return [];
+        if ($argumentNode === null) {
+            return [];
+        }
 
         $value = Reflection::constantStringValueOf($argumentNode);
-        if ($value === null) return [];
-        if (in_array($value, $this->routes)) return [];
+        if ($value === null) {
+            return [];
+        }
+        if (in_array($value, $this->routes)) {
+            return [];
+        }
 
         $existingRoutes = $this->routes;
         usort($existingRoutes, function (string $a, string $b) use ($value) {

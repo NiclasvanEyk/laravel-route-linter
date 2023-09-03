@@ -2,7 +2,6 @@
 
 namespace NiclasVanEyk\LaravelRouteLinter\Tests;
 
-use NiclasVanEyk\LaravelRouteLinter\PHPStan\MissingRouteParameterRule;
 use NiclasVanEyk\LaravelRouteLinter\PHPStan\RoutingFunctions;
 use NiclasVanEyk\LaravelRouteLinter\PHPStan\Support\ExtendedReflectionProvider;
 use NiclasVanEyk\LaravelRouteLinter\PHPStan\UnknownRouteRule;
@@ -28,7 +27,7 @@ class UnknownRouteRuleTest extends RuleTestCase
     public function testItWorks(): void
     {
         $this->analyse([
-            __DIR__ . '/Fixtures/CustomRouteNameHandler.php',
+            __DIR__.'/Fixtures/CustomRouteNameHandler.php',
         ], []);
     }
 }

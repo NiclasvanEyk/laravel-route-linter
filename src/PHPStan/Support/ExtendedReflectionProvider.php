@@ -19,8 +19,7 @@ class ExtendedReflectionProvider
 {
     public function __construct(
         private ReflectionProvider $reflectionProvider
-    )
-    {
+    ) {
     }
 
     /**
@@ -33,7 +32,9 @@ class ExtendedReflectionProvider
         try {
             if ($node instanceof FuncCall) {
                 $name = $node->name;
-                if (!($name instanceof Name)) return null;
+                if (! ($name instanceof Name)) {
+                    return null;
+                }
 
                 $function = $this->reflectionProvider->getFunction($name, $scope);
                 $reflected = new ReflectionFunction($function->getName());
@@ -43,7 +44,9 @@ class ExtendedReflectionProvider
 
             $class = $this->reflectClass($node, $scope);
             $method = $this->reflectMethod($class, $node);
-            if ($class === null && $method === null) return null;
+            if ($class === null && $method === null) {
+                return null;
+            }
 
             return [$class, $method];
         } catch (ReflectionException) {
@@ -54,19 +57,23 @@ class ExtendedReflectionProvider
     private function reflectClass(
         MethodCall|NullsafeMethodCall|StaticCall $node,
         Scope $scope,
-    ): ?ClassReflection
-    {
+    ): ?ClassReflection {
         if ($node instanceof StaticCall) {
             $className = $node->class;
-            if (!($className instanceof Name)) return null;
+            if (! ($className instanceof Name)) {
+                return null;
+            }
 
             $fqn = $scope->resolveName($className);
+
             return $this->reflectionProvider->getClass($fqn);
         }
 
         $type = $scope->getType($node->var);
         $classes = $type->getReferencedClasses();
-        if (count($classes) === 0) return null;
+        if (count($classes) === 0) {
+            return null;
+        }
 
         return $this->reflectionProvider->getClass($classes[0]);
     }
@@ -74,11 +81,15 @@ class ExtendedReflectionProvider
     private function reflectMethod(
         ?ClassReflection $class,
         StaticCall|MethodCall|FuncCall|NullsafeMethodCall $node,
-    ): null|ReflectionMethod {
-        if ($class === null) return null;
+    ): ?ReflectionMethod {
+        if ($class === null) {
+            return null;
+        }
 
         $methodName = $node->name;
-        if (!($methodName instanceof Identifier)) return null;
+        if (! ($methodName instanceof Identifier)) {
+            return null;
+        }
 
         return $class
             ->getNativeReflection()

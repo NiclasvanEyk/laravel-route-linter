@@ -6,7 +6,7 @@ use PhpParser\Node;
 use ReflectionFunction;
 use ReflectionMethod;
 
-readonly final class Location
+final readonly class Location
 {
     public function __construct(
         public string $file,

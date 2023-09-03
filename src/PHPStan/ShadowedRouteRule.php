@@ -8,7 +8,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 
-readonly final class ShadowedRouteRule implements Rule
+final readonly class ShadowedRouteRule implements Rule
 {
     /**
      * @var RouteShadowed[]
@@ -27,14 +27,22 @@ readonly final class ShadowedRouteRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        if (!($node instanceof Node\FunctionLike)) return [];
+        if (! ($node instanceof Node\FunctionLike)) {
+            return [];
+        }
 
         $errors = [];
         foreach ($this->violations as $violation) {
             $handler = $violation->new->handler;
-            if ($handler->getFileName() !== $scope->getFile()) continue;
-            if ($handler->getStartLine() !== $node->getStartLine()) continue;
-            if ($handler->getEndLine() !== $node->getEndLine()) continue;
+            if ($handler->getFileName() !== $scope->getFile()) {
+                continue;
+            }
+            if ($handler->getStartLine() !== $node->getStartLine()) {
+                continue;
+            }
+            if ($handler->getEndLine() !== $node->getEndLine()) {
+                continue;
+            }
 
             $errors[] = RuleErrorBuilder::message($violation->message)->build();
         }

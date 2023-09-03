@@ -3,6 +3,7 @@
 namespace NiclasVanEyk\LaravelRouteLinter\Tests\Fixtures;
 
 use NiclasVanEyk\LaravelRouteLinter\PHPStan\Attributes\RouteName;
+
 use function route;
 
 class CustomRouteNameHandler

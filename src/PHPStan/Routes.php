@@ -10,7 +10,7 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 class Routes
 {
     /**
-     * @param list<RouteInformation> $all
+     * @param  list<RouteInformation>  $all
      */
     public function __construct(public readonly array $all)
     {

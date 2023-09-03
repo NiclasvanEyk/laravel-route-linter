@@ -2,7 +2,7 @@
 
 namespace NiclasVanEyk\LaravelRouteLinter\Tests\Fixtures;
 
-readonly final class Foo
+final readonly class Foo
 {
     public function foo($bar): void
     {

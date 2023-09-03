@@ -19,7 +19,7 @@ class MissingRouteParameterRuleTest extends RuleTestCase
     public function testItWorks(): void
     {
         $this->analyse([
-            __DIR__. '/Fixtures/MissingRouteParameterTestFixture.php',
+            __DIR__.'/Fixtures/MissingRouteParameterTestFixture.php',
         ], [['Missing route path parameters: comment', 13]]);
     }
 }

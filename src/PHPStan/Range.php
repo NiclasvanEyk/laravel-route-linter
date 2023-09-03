@@ -6,13 +6,12 @@ use PhpParser\Node;
 use ReflectionFunction;
 use ReflectionMethod;
 
-readonly final class Range
+final readonly class Range
 {
     public function __construct(
         public Position $begin,
         public Position $end,
-    )
-    {
+    ) {
     }
 
     public static function of(

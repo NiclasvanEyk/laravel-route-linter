@@ -8,6 +8,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+
 use function array_diff;
 use function array_key_exists;
 use function array_values;
@@ -26,7 +27,7 @@ class MissingRouteParameterRule implements Rule
     public array $routes = [];
 
     /**
-     * @param Routes|array<string,list<string>> $routes
+     * @param  Routes|array<string,list<string>>  $routes
      */
     public function __construct(
         Routes|array $routes,
@@ -47,33 +48,44 @@ class MissingRouteParameterRule implements Rule
         $result = $this
             ->routingFunctions
             ->extractRouteAndParameterNameNodes($node, $scope);
-        if (!$result) return [];
+        if (! $result) {
+            return [];
+        }
 
         // Resolve route name
         [$nameNode, $parametersNode] = $result;
         $name = Reflection::constantStringValueOf($nameNode->value);
         // Note: If we don't know the route, it is likely an error.
         // However, we don't report it here, this is the job of a separate rule.
-        if ($name === null) return [];
+        if ($name === null) {
+            return [];
+        }
 
         // Resolve expected and actually passed route parameters
-        if (!array_key_exists($name, $this->routes)) return [];
+        if (! array_key_exists($name, $this->routes)) {
+            return [];
+        }
         $expected = $this->routes[$name];
-        if (count($expected) === 0) return [];
+        if (count($expected) === 0) {
+            return [];
+        }
         $actual = UrlGenerationPathParameters::tryFromNode(
             $parametersNode->value,
         );
-        if ($actual === null) return [];
+        if ($actual === null) {
+            return [];
+        }
 
         // Validate parameters
         $missing = array_values(
             array_diff($expected, $actual->matchedTo($expected)),
         );
-        if (count($missing) === 0) return [];
+        if (count($missing) === 0) {
+            return [];
+        }
 
         return $this->buildErrors($parametersNode, $missing);
     }
-
 
     /**
      * @return array<string,list<string>>
@@ -83,7 +95,9 @@ class MissingRouteParameterRule implements Rule
         $mapped = [];
         foreach ($routes->all as $route) {
             $name = $route->name;
-            if ($name === null) continue;
+            if ($name === null) {
+                continue;
+            }
 
             $mapped[$name] = $route->pathParameters;
         }
@@ -92,18 +106,18 @@ class MissingRouteParameterRule implements Rule
     }
 
     /**
-     * @param Node $parametersNode
-     * @param list<string> $missing
+     * @param  Node  $parametersNode
+     * @param  list<string>  $missing
      * @return list<RuleError>
      */
     private function buildErrors(mixed $parametersNode, array $missing): array
     {
-        $asString = implode(", ", $missing);
+        $asString = implode(', ', $missing);
 
         return [
             RuleErrorBuilder::message("Missing route path parameters: $asString")
                 ->line($parametersNode->getLine())
-                ->build()
+                ->build(),
         ];
     }
 }

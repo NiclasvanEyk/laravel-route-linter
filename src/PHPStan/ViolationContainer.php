@@ -7,14 +7,14 @@ use NiclasVanEyk\LaravelRouteLinter\Internal\Linter\ShadowedRouteLinter;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Linters;
 use NiclasVanEyk\LaravelRouteLinter\Internal\RouteInformation;
 use NiclasVanEyk\LaravelRouteLinter\Internal\Violation;
+
 use function array_filter;
 use function array_values;
 
 final class ViolationContainer
 {
     /**
-     * @param list<Violation> $violations
-     * @param bool $resolve
+     * @param  list<Violation>  $violations
      */
     public function __construct(
         private array $violations = [],
@@ -40,7 +40,8 @@ final class ViolationContainer
 
     /**
      * @template V of Violation
-     * @param class-string<V> $type
+     *
+     * @param  class-string<V>  $type
      * @return list<V>
      */
     public function violations(string $type): array
