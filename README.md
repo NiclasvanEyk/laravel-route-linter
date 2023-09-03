@@ -1,5 +1,9 @@
 # Statically validate your route definitions
 
+## DISCLAIMER
+
+This is repository is very much work in progress. I have decided to not publish this as its own package, but rather prepare a PR to Larastan. This will happen when proper reporting of unknown routes and route parameters is implemented.
+
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/niclasvaneyk/laravel-route-linter.svg?style=flat-square)](https://packagist.org/packages/niclasvaneyk/laravel-route-linter)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/niclasvaneyk/laravel-route-linter/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/niclasvaneyk/laravel-route-linter/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/niclasvaneyk/laravel-route-linter/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/niclasvaneyk/laravel-route-linter/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
