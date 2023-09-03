@@ -4,7 +4,6 @@ namespace NiclasVanEyk\LaravelRouteLinter\PHPStan;
 
 use NiclasVanEyk\LaravelRouteLinter\PHPStan\Support\Reflection;
 use PhpParser\Node;
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
@@ -40,7 +39,7 @@ class MissingRouteParameterRule implements Rule
 
     public function getNodeType(): string
     {
-        return MethodCall::class;
+        return Node::class;
     }
 
     public function processNode(Node $node, Scope $scope): array
@@ -53,6 +52,8 @@ class MissingRouteParameterRule implements Rule
         // Resolve route name
         [$nameNode, $parametersNode] = $result;
         $name = Reflection::constantStringValueOf($nameNode->value);
+        // Note: If we don't know the route, it is likely an error.
+        // However, we don't report it here, this is the job of a separate rule.
         if ($name === null) return [];
 
         // Resolve expected and actually passed route parameters
